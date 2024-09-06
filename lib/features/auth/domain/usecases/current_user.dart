@@ -2,7 +2,7 @@ import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/core/usecase/usecase.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../entities/user.dart';
+import '../../../../core/common/entities/user.dart';
 import '../repository/auth_repository.dart';
 
 class CurrentUser implements Usecase<User, NoParams> {
