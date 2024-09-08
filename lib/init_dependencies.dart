@@ -10,11 +10,17 @@ import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/current_user.dart';
 import 'features/auth/domain/usecases/user_sign_up.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/blog/data/datasources/blog_remote_data_sources.dart';
+import 'features/blog/data/repositories/blog_repository_impl.dart';
+import 'features/blog/domain/repositories/blog_repository.dart';
+import 'features/blog/domain/usecases/upload_blog.dart';
+import 'features/blog/presentation/bloc/blog_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
+  _initBlog();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
@@ -64,6 +70,34 @@ void _initAuth() {
         userLogin: serviceLocator(),
         currentUser: serviceLocator(),
         appUserCubit: serviceLocator(),
+      ),
+    );
+}
+
+void _initBlog() {
+  // Datasource
+  serviceLocator
+    ..registerFactory<BlogRemoteDataSource>(
+      () => BlogRemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
+    // repository
+    ..registerFactory<BlogRepository>(
+      () => BlogRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    // Usecases
+    ..registerFactory(
+      () => UploadBlog(
+        serviceLocator(),
+      ),
+    )
+    // BLoc
+    ..registerLazySingleton(
+      () => BlogBloc(
+        serviceLocator(),
       ),
     );
 }
