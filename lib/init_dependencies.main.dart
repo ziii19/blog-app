@@ -41,11 +41,6 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
-    ..registerFactory<ConnectionChecker>(
-      () => ConnectionCheckerImpl(
-        serviceLocator(),
-      ),
-    )
     // repository
     ..registerFactory<AuthRepository>(
       () => AuthRepositoryImpl(

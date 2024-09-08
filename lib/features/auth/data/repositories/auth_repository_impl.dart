@@ -1,3 +1,5 @@
+import 'package:blog_app/core/constants/constants.dart';
+
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/connection_checker.dart';
@@ -5,7 +7,6 @@ import '../datasources/auth_remote_data_source.dart';
 import '../../../../core/common/entities/user.dart';
 import '../../domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -72,12 +73,10 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       if (!(await connectionChecker.isConnected)) {
-        return left(Failure('No internet connection!'));
+        return left(Failure(Constants.noConnectionErrorMessage));
       }
       final user = await fn();
       return right(user);
-    } on sb.AuthException catch (e) {
-      return left(Failure(e.message));
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

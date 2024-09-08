@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'core/common/cubits/cubit/app_user_cubit.dart';
 import 'core/theme/theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
@@ -12,6 +14,7 @@ import 'init_dependencies.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
+  Bloc.observer = AppBlockObserver();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (context) => serviceLocator<AppUserCubit>(),
@@ -57,5 +60,18 @@ class _MyAppState extends State<MyApp> {
         },
       ),
     );
+  }
+}
+
+class AppBlockObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    log('$change', name: 'BLOC');
+    super.onChange(bloc, change);
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    super.onError(bloc, error, stackTrace);
   }
 }

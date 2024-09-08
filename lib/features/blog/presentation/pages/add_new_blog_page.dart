@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:blog_app/core/constants/constants.dart';
+
 import '../../../../core/theme/app_pallete.dart';
 import '../../../../core/utils/pick_image.dart';
 import '../widgets/blog_editor.dart';
@@ -149,12 +151,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: [
-                          'Technology',
-                          'Business',
-                          'Programming',
-                          'Entertainment'
-                        ]
+                        children: Constants.topics
                             .map((e) => Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: GestureDetector(
