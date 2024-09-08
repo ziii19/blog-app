@@ -1,5 +1,5 @@
 import 'package:blog_app/core/error/failures.dart';
-import 'package:blog_app/core/usecase/usecase.dart';
+import '../../../../core/usecase/usecase.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/common/entities/user.dart';

@@ -1,10 +1,12 @@
 import 'dart:io';
 
-import 'package:blog_app/core/error/exceptions.dart';
-import 'package:blog_app/core/error/failures.dart';
-import 'package:blog_app/features/blog/data/models/blog_models.dart';
-import 'package:blog_app/features/blog/domain/entities/blog.dart';
-import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/network/connection_checker.dart';
+import '../datasources/blog_local_data_source.dart';
+import '../models/blog_models.dart';
+import '../../domain/entities/blog.dart';
+import '../../domain/repositories/blog_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,7 +14,13 @@ import '../datasources/blog_remote_data_sources.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
   final BlogRemoteDataSource blogRemoteDataSource;
-  BlogRepositoryImpl(this.blogRemoteDataSource);
+  final BlogLocalDataSource blogLocalDataSource;
+  final ConnectionChecker connectionChecker;
+  BlogRepositoryImpl(
+    this.blogRemoteDataSource,
+    this.blogLocalDataSource,
+    this.connectionChecker,
+  );
 
   @override
   Future<Either<Failure, Blog>> uploadBlog({
@@ -23,6 +31,9 @@ class BlogRepositoryImpl implements BlogRepository {
     required List<String> topics,
   }) async {
     try {
+      if (!(await connectionChecker.isConnected)) {
+        return left(Failure('No internet connection!'));
+      }
       BlogModel blogModel = BlogModel(
         id: const Uuid().v1(),
         blogId: blogId,
@@ -50,7 +61,12 @@ class BlogRepositoryImpl implements BlogRepository {
   @override
   Future<Either<Failure, List<Blog>>> getAllBlogs() async {
     try {
+      if (!(await connectionChecker.isConnected)) {
+        final blogs = blogLocalDataSource.loadBlogs();
+        return right(blogs);
+      }
       final blogs = await blogRemoteDataSource.getAllBlogs();
+      blogLocalDataSource.uploadLocalBlogs(blogs: blogs);
       return right(blogs);
     } on ServerException catch (e) {
       return left(Failure(e.message));

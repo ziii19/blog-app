@@ -1,8 +1,8 @@
-import 'package:blog_app/core/common/cubits/cubit/app_user_cubit.dart';
-import 'package:blog_app/core/usecase/usecase.dart';
-import 'package:blog_app/core/common/entities/user.dart';
-import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
-import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
+import '../../../../core/common/cubits/cubit/app_user_cubit.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../../../core/common/entities/user.dart';
+import '../../domain/usecases/current_user.dart';
+import '../../domain/usecases/user_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

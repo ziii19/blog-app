@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:blog_app/core/error/failures.dart';
+import '../../../../core/error/failures.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../entities/blog.dart';

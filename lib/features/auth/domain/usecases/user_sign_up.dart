@@ -1,7 +1,7 @@
-import 'package:blog_app/core/error/failures.dart';
-import 'package:blog_app/core/usecase/usecase.dart';
-import 'package:blog_app/core/common/entities/user.dart';
-import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../../../core/common/entities/user.dart';
+import '../repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class UserSignUp implements Usecase<User, UserSignUpParams> {

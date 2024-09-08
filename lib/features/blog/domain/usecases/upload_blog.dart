@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:blog_app/core/error/failures.dart';
-import 'package:blog_app/core/usecase/usecase.dart';
-import 'package:blog_app/features/blog/domain/entities/blog.dart';
-import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/blog.dart';
+import '../repositories/blog_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class UploadBlog implements Usecase<Blog, UploadBlogParam> {

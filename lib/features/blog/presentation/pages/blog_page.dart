@@ -1,7 +1,8 @@
-import 'package:blog_app/core/common/widgets/loader.dart';
-import 'package:blog_app/core/theme/app_pallete.dart';
-import 'package:blog_app/features/blog/presentation/pages/add_new_blog_page.dart';
-import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
+import '../../../../core/common/widgets/loader.dart';
+import '../../../../core/theme/app_pallete.dart';
+import '../../../../core/utils/show_snackbar.dart';
+import 'add_new_blog_page.dart';
+import '../widgets/blog_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,9 @@ class BlogPage extends StatelessWidget {
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is BlogFailure) {
+            showSnackBar(context: context, content: state.error);
+          }
         },
         builder: (context, state) {
           if (state is BlogLoading) {

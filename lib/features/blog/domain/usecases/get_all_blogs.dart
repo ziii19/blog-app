@@ -1,6 +1,6 @@
-import 'package:blog_app/core/error/failures.dart';
-import 'package:blog_app/core/usecase/usecase.dart';
-import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repositories/blog_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../entities/blog.dart';

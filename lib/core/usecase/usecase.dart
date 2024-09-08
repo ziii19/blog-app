@@ -1,4 +1,4 @@
-import 'package:blog_app/core/error/failures.dart';
+import '../error/failures.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract interface class Usecase<SuccessType, Params> {

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:blog_app/core/theme/app_pallete.dart';
-import 'package:blog_app/core/utils/pick_image.dart';
-import 'package:blog_app/features/blog/presentation/widgets/blog_editor.dart';
+import '../../../../core/theme/app_pallete.dart';
+import '../../../../core/utils/pick_image.dart';
+import '../widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -125,10 +125,10 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                               radius: const Radius.circular(10),
                               borderType: BorderType.RRect,
                               strokeCap: StrokeCap.round,
-                              child: Container(
+                              child: const SizedBox(
                                 height: 150,
                                 width: double.infinity,
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -166,7 +166,6 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                                       }
 
                                       setState(() {});
-                                      print(selectedTopics);
                                     },
                                     child: Chip(
                                       label: Text(e),

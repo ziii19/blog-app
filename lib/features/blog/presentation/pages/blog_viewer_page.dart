@@ -1,7 +1,7 @@
-import 'package:blog_app/core/theme/app_pallete.dart';
-import 'package:blog_app/core/utils/calculate_reading_time.dart';
-import 'package:blog_app/core/utils/format_date.dart';
-import 'package:blog_app/features/blog/domain/entities/blog.dart';
+import '../../../../core/theme/app_pallete.dart';
+import '../../../../core/utils/calculate_reading_time.dart';
+import '../../../../core/utils/format_date.dart';
+import '../../domain/entities/blog.dart';
 import 'package:flutter/material.dart';
 
 class BlogViewerPage extends StatelessWidget {

@@ -1,8 +1,9 @@
-import 'package:blog_app/core/common/widgets/loader.dart';
-import 'package:blog_app/core/utils/show_snackbar.dart';
-import 'package:blog_app/features/auth/presentation/pages/login_page.dart';
-import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
-import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
+import '../../../../core/common/widgets/loader.dart';
+import '../../../../core/utils/show_snackbar.dart';
+import 'login_page.dart';
+import '../widgets/auth_field.dart';
+import '../widgets/auth_gradient_button.dart';
+import '../../../blog/presentation/pages/blog_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,6 +42,8 @@ class _SignUpPageState extends State<SignUpPage> {
           listener: (context, state) {
             if (state is AuthFailure) {
               showSnackBar(context: context, content: state.message);
+            } else if (state is AuthSuccess) {
+              Navigator.of(context).pushReplacement(BlogPage.route());
             }
           },
           builder: (context, state) {
