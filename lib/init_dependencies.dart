@@ -13,6 +13,7 @@ import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/blog/data/datasources/blog_remote_data_sources.dart';
 import 'features/blog/data/repositories/blog_repository_impl.dart';
 import 'features/blog/domain/repositories/blog_repository.dart';
+import 'features/blog/domain/usecases/get_all_blogs.dart';
 import 'features/blog/domain/usecases/upload_blog.dart';
 import 'features/blog/presentation/bloc/blog_bloc.dart';
 
@@ -94,10 +95,16 @@ void _initBlog() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => GetAllBlogs(
+        serviceLocator(),
+      ),
+    )
     // BLoc
     ..registerLazySingleton(
       () => BlogBloc(
-        serviceLocator(),
+        uploadBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
       ),
     );
 }

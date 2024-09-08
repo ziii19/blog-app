@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/blog/data/models/blog_models.dart';
+import 'package:blog_app/features/blog/domain/entities/blog.dart';
 import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
@@ -14,7 +15,7 @@ class BlogRepositoryImpl implements BlogRepository {
   BlogRepositoryImpl(this.blogRemoteDataSource);
 
   @override
-  Future<Either<Failure, BlogModel>> uploadBlog({
+  Future<Either<Failure, Blog>> uploadBlog({
     required File image,
     required String title,
     required String content,
@@ -41,6 +42,16 @@ class BlogRepositoryImpl implements BlogRepository {
       );
       final uploadBlog = await blogRemoteDataSource.uploadBlog(blogModel);
       return right(uploadBlog);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Blog>>> getAllBlogs() async {
+    try {
+      final blogs = await blogRemoteDataSource.getAllBlogs();
+      return right(blogs);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

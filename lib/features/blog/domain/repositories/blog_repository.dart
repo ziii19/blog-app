@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../../data/models/blog_models.dart';
+import '../entities/blog.dart';
+
 
 abstract interface class BlogRepository {
-  Future<Either<Failure, BlogModel>> uploadBlog({
+  Future<Either<Failure, Blog>> uploadBlog({
     required File image,
     required String title,
     required String content,
     required String blogId,
     required List<String> topics,
   });
+
+  Future<Either<Failure, List<Blog>>> getAllBlogs();
 }
