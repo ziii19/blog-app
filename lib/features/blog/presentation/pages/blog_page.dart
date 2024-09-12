@@ -1,3 +1,7 @@
+import 'package:blog_app/core/utils/get_greeting.dart';
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app/features/auth/presentation/pages/login_page.dart';
+
 import '../../../../core/common/widgets/loader.dart';
 import '../../../../core/theme/app_pallete.dart';
 import '../../../../core/utils/show_snackbar.dart';
@@ -28,46 +32,75 @@ class _BlogPageState extends State<BlogPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blog App'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context, AddNewBlogPage.route());
-              },
-              icon: const Icon(CupertinoIcons.add_circled)),
-        ],
-      ),
-      body: BlocConsumer<BlogBloc, BlogState>(
-        listener: (context, state) {
-          if (state is BlogFailure) {
-            showSnackBar(context: context, content: state.error);
-          }
-        },
-        builder: (context, state) {
-          if (state is BlogLoading) {
-            return const Loader();
-          }
-          if (state is BlogDiplaySuccess) {
-            return ListView.builder(
-                itemCount: state.blogs.length,
-                itemBuilder: (context, index) {
-                  final blog = state.blogs[index];
-                  return BlogCard(
-                    blog: blog,
-                    color: index % 3 == 0
-                        ? AppPallete.gradient1
-                        : index % 3 == 1
-                            ? AppPallete.gradient2
-                            : AppPallete.gradient3,
-                  );
-                });
-          }
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthInitial) {
+          Navigator.pushAndRemoveUntil(
+              context, LoginPage.route(), (route) => false);
+        } else if (state is AuthFailure) {
+          showSnackBar(context: context, content: state.message);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 70,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${getGreeting()} 👋'),
+                Text(
+                  state is AuthSuccess ? state.user.name : 'blog app',
+                  style: const TextStyle(
+                      fontSize: 16, color: AppPallete.greyColor),
+                ),
+              ],
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(context, AddNewBlogPage.route());
+                  },
+                  icon: const Icon(CupertinoIcons.add_circled)),
+            ],
+          ),
+          body: BlocConsumer<BlogBloc, BlogState>(
+            listener: (context, state) {
+              if (state is BlogFailure) {
+                showSnackBar(context: context, content: state.error);
+              }
+            },
+            builder: (context, state) {
+              if (state is BlogLoading) {
+                return const Loader();
+              }
+              if (state is BlogDiplaySuccess) {
+                return ListView.builder(
+                    itemCount: state.blogs.length,
+                    itemBuilder: (context, index) {
+                      final blog = state.blogs[index];
+                      return BlogCard(
+                        blog: blog,
+                        color: index % 3 == 0
+                            ? AppPallete.gradient1
+                            : index % 3 == 1
+                                ? AppPallete.gradient2
+                                : AppPallete.gradient3,
+                      );
+                    });
+              }
 
-          return const SizedBox();
-        },
-      ),
+              return const SizedBox();
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<AuthBloc>().add(AuthLogout());
+            },
+            child: const Icon(Icons.logout_rounded),
+          ),
+        );
+      },
     );
   }
 }
